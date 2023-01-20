@@ -1,115 +1,119 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+import '/pages/animated_map_controller.dart';
+import '/pages/circle.dart';
+import '/pages/custom_crs/custom_crs.dart';
+import '/pages/epsg3413_crs.dart';
+import '/pages/epsg4326_crs.dart';
+import '/pages/esri.dart';
+import '/pages/fallback_url_network_page.dart';
+import '/pages/fallback_url_offline_page.dart';
+import '/pages/home.dart';
+import '/pages/interactive_test_page.dart';
+import '/pages/latlng_to_screen_point.dart';
+import '/pages/live_location.dart';
+import '/pages/many_markers.dart';
+import '/pages/map_controller.dart';
+import '/pages/map_inside_listview.dart';
+import '/pages/marker_anchor.dart';
+import '/pages/marker_rotate.dart';
+import '/pages/max_bounds.dart';
+import '/pages/moving_markers.dart';
+import '/pages/network_tile_provider.dart';
+import '/pages/offline_map.dart';
+import '/pages/on_tap.dart';
+import '/pages/overlay_image.dart';
+import '/pages/plugin_scalebar.dart';
+import '/pages/plugin_zoombuttons.dart';
+import '/pages/point_to_latlng.dart';
+import '/pages/polygon.dart';
+import '/pages/polyline.dart';
+import '/pages/reset_tile_layer.dart';
+import '/pages/sliding_map.dart';
+import '/pages/stateful_markers.dart';
+import '/pages/tap_to_add.dart';
+import '/pages/tile_builder_example.dart';
+import '/pages/tile_loading_error_handle.dart';
+import '/pages/widgets.dart';
+import '/pages/wms_tile_layer.dart';
+
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Map Example',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: mapBoxBlue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(),
+      routes: <String, WidgetBuilder>{
+        NetworkTileProviderPage.route: (context) =>
+            const NetworkTileProviderPage(),
+        WidgetsPage.route: (context) => const WidgetsPage(),
+        TapToAddPage.route: (context) => const TapToAddPage(),
+        EsriPage.route: (context) => const EsriPage(),
+        PolylinePage.route: (context) => const PolylinePage(),
+        MapControllerPage.route: (context) => const MapControllerPage(),
+        AnimatedMapControllerPage.route: (context) =>
+            const AnimatedMapControllerPage(),
+        MarkerAnchorPage.route: (context) => const MarkerAnchorPage(),
+        PluginScaleBar.route: (context) => const PluginScaleBar(),
+        PluginZoomButtons.route: (context) => const PluginZoomButtons(),
+        OfflineMapPage.route: (context) => const OfflineMapPage(),
+        OnTapPage.route: (context) => const OnTapPage(),
+        MarkerRotatePage.route: (context) => const MarkerRotatePage(),
+        MovingMarkersPage.route: (context) => const MovingMarkersPage(),
+        CirclePage.route: (context) => const CirclePage(),
+        OverlayImagePage.route: (context) => const OverlayImagePage(),
+        PolygonPage.route: (context) => const PolygonPage(),
+        SlidingMapPage.route: (_) => const SlidingMapPage(),
+        WMSLayerPage.route: (context) => const WMSLayerPage(),
+        CustomCrsPage.route: (context) => const CustomCrsPage(),
+        LiveLocationPage.route: (context) => const LiveLocationPage(),
+        TileLoadingErrorHandle.route: (context) =>
+            const TileLoadingErrorHandle(),
+        TileBuilderPage.route: (context) => const TileBuilderPage(),
+        InteractiveTestPage.route: (context) => const InteractiveTestPage(),
+        ManyMarkersPage.route: (context) => const ManyMarkersPage(),
+        StatefulMarkersPage.route: (context) => const StatefulMarkersPage(),
+        MapInsideListViewPage.route: (context) => const MapInsideListViewPage(),
+        ResetTileLayerPage.route: (context) => const ResetTileLayerPage(),
+        EPSG4326Page.route: (context) => const EPSG4326Page(),
+        EPSG3413Page.route: (context) => const EPSG3413Page(),
+        MaxBoundsPage.route: (context) => const MaxBoundsPage(),
+        PointToLatLngPage.route: (context) => const PointToLatLngPage(),
+        LatLngScreenPointTestPage.route: (context) =>
+            const LatLngScreenPointTestPage(),
+        FallbackUrlNetworkPage.route: (context) =>
+            const FallbackUrlNetworkPage(),
+        FallbackUrlOfflinePage.route: (context) =>
+            const FallbackUrlOfflinePage(),
+      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
+// Generated using Material Design Palette/Theme Generator
+// http://mcg.mbitson.com/
+// https://github.com/mbitson/mcg
+const int _bluePrimary = 0xFF395afa;
+const MaterialColor mapBoxBlue = MaterialColor(
+  _bluePrimary,
+  <int, Color>{
+    50: Color(0xFFE7EBFE),
+    100: Color(0xFFC4CEFE),
+    200: Color(0xFF9CADFD),
+    300: Color(0xFF748CFC),
+    400: Color(0xFF5773FB),
+    500: Color(_bluePrimary),
+    600: Color(0xFF3352F9),
+    700: Color(0xFF2C48F9),
+    800: Color(0xFF243FF8),
+    900: Color(0xFF172EF6),
+  },
+);
