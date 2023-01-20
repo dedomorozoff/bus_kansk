@@ -23,7 +23,6 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   @override
   void initState() {
-    print("init");
     super.initState();
   }
 
@@ -46,9 +45,11 @@ class HomePageState extends State<HomePage> {
           children: [
             MaterialButton(
               onPressed: () {
-                y = y + 0.001;
+                // y = y + 0.001;
                 Navigator.pushReplacementNamed(context, HomePage.route);
-                print(y);
+                getSsid().then((sidFrom) {
+                  print(sidFrom);
+                });
               },
               child: const Text('Обновить'),
             ),
@@ -74,7 +75,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Future<List> makeRequest() async {
+  Future<List> getBuses() async {
     String url = 'https://mu-kgt.ru/regions/api/rpc.php';
     List data;
     var response =
@@ -82,5 +83,18 @@ class HomePageState extends State<HomePage> {
     var extractData = json.decode(response.body);
     data = extractData;
     return data;
+  }
+
+  Future<String> getSsid() async {
+    String url = 'https://mu-kgt.ru/regions/api/rpc.php';
+    String body =
+        '{"jsonrpc":"2.0","method":"startSession","params":{},"id":1}';
+    final response = await http.post(Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body);
+    var data = json.decode(response.body);
+    return data["result"]["sid"];
   }
 }
