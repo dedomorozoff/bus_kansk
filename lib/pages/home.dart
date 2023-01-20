@@ -21,7 +21,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-
   @override
   void initState() {
     print("init");
@@ -62,7 +61,7 @@ class HomePageState extends State<HomePage> {
                 children: [
                   TileLayer(
                     urlTemplate:
-                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                     userAgentPackageName: 'dev.fleaflet.flutter_map.example',
                   ),
                   MarkerLayer(markers: markers),
@@ -75,16 +74,13 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Future<String> getLats() {
-    String url = 'http://api.kansk-tc.ru/albums/';
+  Future<List> makeRequest() async {
+    String url = 'https://mu-kgt.ru/regions/api/rpc.php';
     List data;
-    //закачиваем json
-    Future<void> makeRequest() async {
-      var response = await http
-          .get(Uri.parse(url), headers: {"Accept": "application/json"});
-      var extractdata = json.decode(response.body);
-      data = extractdata;
-    }
-    //TODO Разобраться с запросом
-    //return makeRequest();
+    var response =
+        await http.get(Uri.parse(url), headers: {"Accept": "application/json"});
+    var extractData = json.decode(response.body);
+    data = extractData;
+    return data;
   }
+}
