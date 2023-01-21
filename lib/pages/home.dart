@@ -5,6 +5,7 @@ import '/widgets/drawer.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 import '/config.dart';
+import 'package:location/location.dart';
 
 String sid = '';
 var markers = <Marker>[];
@@ -33,18 +34,12 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     print("Building map");
     return Scaffold(
-      appBar: AppBar(title: const Text('Главная')),
-      drawer: buildDrawer(context, HomePage.route),
+      appBar: AppBar(title: const Text('Автобусы Канска')),
+      // drawer: buildDrawer(context, HomePage.route),
       body: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(5),
         child: Column(
           children: [
-            MaterialButton(
-              onPressed: () {
-                getInfo();
-              },
-              child: const Text('Обновить'),
-            ),
             Flexible(
               child: FlutterMap(
                 mapController: _mapController,
@@ -66,7 +61,23 @@ class HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-          ],
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:<Widget>[
+            MaterialButton(
+              onPressed: () {
+                getInfo();
+                _mapController.move(LatLng(centerLat, centerLong), 15);
+              },
+              child: const Text('Центр города'),
+            ),MaterialButton(
+              onPressed: () {
+                getInfo();
+              },
+              child: const Text('Обновить'),
+            ),
+          ])]
         ),
       ),
     );
@@ -163,5 +174,76 @@ class HomePageState extends State<HomePage> {
     var data = json.decode(response.body);
     // print(data);
     return data["result"];
+  }
+}
+class CurrentLocation extends StatefulWidget {
+  const CurrentLocation({
+    Key? key,
+    required this.mapController,
+  }) : super(key: key);
+
+  final MapController mapController;
+
+  @override
+  _CurrentLocationState createState() => _CurrentLocationState();
+}
+
+class _CurrentLocationState extends State<CurrentLocation> {
+  int _eventKey = 0;
+
+  IconData icon = Icons.gps_not_fixed;
+  late final StreamSubscription<MapEvent> mapEventSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    mapEventSubscription =
+        widget.mapController.mapEventStream.listen(onMapEvent);
+  }
+
+  @override
+  void dispose() {
+    mapEventSubscription.cancel();
+    super.dispose();
+  }
+
+  void setIcon(IconData newIcon) {
+    if (newIcon != icon && mounted) {
+      setState(() {
+        icon = newIcon;
+      });
+    }
+  }
+
+  void onMapEvent(MapEvent mapEvent) {
+    if (mapEvent is MapEventMove && mapEvent.id != _eventKey.toString()) {
+      setIcon(Icons.gps_not_fixed);
+    }
+  }
+
+  void _moveToCurrent() async {
+    _eventKey++;
+    final location = Location();
+
+    try {
+      final currentLocation = await location.getLocation();
+      final moved = widget.mapController.move(
+        LatLng(currentLocation.latitude!, currentLocation.longitude!),
+        18,
+        id: _eventKey.toString(),
+      );
+
+      setIcon(moved ? Icons.gps_fixed : Icons.gps_not_fixed);
+    } catch (e) {
+      setIcon(Icons.gps_off);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(icon),
+      onPressed: _moveToCurrent,
+    );
   }
 }
