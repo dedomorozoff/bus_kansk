@@ -45,4 +45,4 @@ const List busIds = [
 ];
 const centerLat = 56.2056;
 const centerLong = 95.7050;
-const double centerZoom = 14;
+const double centerZoom = 16;
