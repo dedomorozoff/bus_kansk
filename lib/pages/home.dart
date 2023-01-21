@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import '/widgets/drawer.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import '/config.dart';
 
 var markers = <Marker>[];
+String sid = '';
 
 class HomePage extends StatefulWidget {
   static const String route = '/';
@@ -25,6 +25,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     getInfo();
+    print("Reloading");
     super.initState();
   }
 
@@ -39,9 +40,7 @@ class HomePageState extends State<HomePage> {
           children: [
             MaterialButton(
               onPressed: () {
-                // y = y + 0.001;
                 Navigator.pushReplacementNamed(context, HomePage.route);
-                getInfo();
               },
               child: const Text('Обновить'),
             ),
@@ -68,8 +67,19 @@ class HomePageState extends State<HomePage> {
   }
 
   void getInfo() {
+    print("geting info");
+    int noArrays = (busIds.length / 3).ceil();
     getSsid().then((sidFrom) {
-      getBuses(sidFrom, busIds).then((dataBus) {
+      sid = sidFrom;
+      print(sid);
+    });
+
+    for (int i = 0; i < noArrays; i++) {
+      int noElements =
+          i == noArrays - 1 ? (3 - (noArrays * 3 - busIds.length)) : (3);
+      List partBuses = busIds.sublist(i * 3, (i * 3) + noElements);
+
+      getBuses(sid, partBuses).then((dataBus) {
         for (var bus in dataBus) {
           markers.add(Marker(
             width: 80,
@@ -81,10 +91,11 @@ class HomePageState extends State<HomePage> {
           print(bus["mr_num"]);
         }
       });
-    });
+    }
   }
 
   Future<List> getBuses(sid, busIds) async {
+    // markers.clear();
     String url = 'https://mu-kgt.ru/regions/api/rpc.php';
     String body =
         '{"jsonrpc":"2.0","method":"getUnits","params":{"sid":"$sid","marshList":$busIds},"id":1}';
@@ -95,6 +106,7 @@ class HomePageState extends State<HomePage> {
         },
         body: body);
     var data = json.decode(response.body);
+    print(data);
     return data["result"];
   }
 
@@ -108,6 +120,7 @@ class HomePageState extends State<HomePage> {
         },
         body: body);
     var data = json.decode(response.body);
+    // print(data["result"]["sid"]);
     return data["result"]["sid"];
   }
 }
