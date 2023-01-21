@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import '/config.dart';
 
 String sid = '';
+var markers = <Marker>[];
+var markersTest = <Marker>[];
 
 class HomePage extends StatefulWidget {
   static const String route = '/';
@@ -19,7 +21,6 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final MapController _mapController = MapController();
-  var markers = <Marker>[];
 
   @override
   void initState() {
@@ -30,6 +31,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("Building map");
     return Scaffold(
       appBar: AppBar(title: const Text('Главная')),
       drawer: buildDrawer(context, HomePage.route),
@@ -39,9 +41,7 @@ class HomePageState extends State<HomePage> {
           children: [
             MaterialButton(
               onPressed: () {
-                setState(() {
-                  getInfo();
-                });
+                getInfo();
               },
               child: const Text('Обновить'),
             ),
@@ -72,11 +72,11 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  void getInfo() {
+   getInfo() {
     int noArrays = (busIds.length / 3).ceil();
     getSsid().then((sidFrom) {
       sid = sidFrom;
-      // print(sid);
+      print(sid);
 
       for (int i = 0; i < noArrays; i++) {
         int noElements =
@@ -117,10 +117,17 @@ class HomePageState extends State<HomePage> {
                         ),
                       ),
                     ]))));
+            setState(() {
+
+            });
+
             //
           }
+
         });
       }
+      print(markers);
+
     });
 
   }
