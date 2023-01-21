@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -38,52 +39,51 @@ class HomePageState extends State<HomePage> {
       // drawer: buildDrawer(context, HomePage.route),
       body: Padding(
         padding: const EdgeInsets.all(5),
-        child: Column(
-          children: [
-            Flexible(
-              child: FlutterMap(
-                mapController: _mapController,
-                options: MapOptions(
-                  center: LatLng(centerLat, centerLong),
-                  zoom: centerZoom,
-                  onMapReady: () {
-                    print("Map ready");
-                  },
-                  keepAlive: true,
-                ),
-                children: [
-                  TileLayer(
-                    urlTemplate:
-                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-                  ),
-                  MarkerLayer(markers: markers),
-                ],
+        child: Column(children: [
+          Flexible(
+            child: FlutterMap(
+              mapController: _mapController,
+              options: MapOptions(
+                center: LatLng(centerLat, centerLong),
+                zoom: centerZoom,
+                onMapReady: () {
+                  print("Map ready");
+                },
+                keepAlive: true,
               ),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                ),
+                MarkerLayer(markers: markers),
+              ],
             ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:<Widget>[
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
             MaterialButton(
               onPressed: () {
                 getInfo();
                 _mapController.move(LatLng(centerLat, centerLong), 15);
               },
               child: const Text('Центр города'),
-            ),MaterialButton(
+            ),
+            MaterialButton(
               onPressed: () {
                 getInfo();
               },
               child: const Text('Обновить'),
             ),
-          ])]
-        ),
+            Padding(
+                padding: EdgeInsets.only(left: 30),
+                child: CurrentLocation(mapController: _mapController))
+          ])
+        ]),
       ),
     );
   }
 
-   getInfo() {
+  getInfo() {
     int noArrays = (busIds.length / 3).ceil();
     getSsid().then((sidFrom) {
       sid = sidFrom;
@@ -128,19 +128,14 @@ class HomePageState extends State<HomePage> {
                         ),
                       ),
                     ]))));
-            setState(() {
-
-            });
+            setState(() {});
 
             //
           }
-
         });
       }
       print(markers);
-
     });
-
   }
 
   Future<String> getSsid() async {
@@ -176,6 +171,7 @@ class HomePageState extends State<HomePage> {
     return data["result"];
   }
 }
+
 class CurrentLocation extends StatefulWidget {
   const CurrentLocation({
     Key? key,
