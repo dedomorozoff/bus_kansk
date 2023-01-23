@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:smart_timer/smart_timer.dart';
 import '/widgets/drawer.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +12,7 @@ import 'package:location/location.dart';
 String sid = '';
 var markers = <Marker>[];
 var markersTest = <Marker>[];
+late Timer timer;
 
 class HomePage extends StatefulWidget {
   static const String route = '/';
@@ -28,6 +30,10 @@ class HomePageState extends State<HomePage> {
   void initState() {
     print("Reloading");
     getInfo();
+    SmartTimer(
+      duration: Duration(seconds: 10),
+      onTick: () => getInfo(),
+    );
     super.initState();
   }
 
@@ -104,12 +110,6 @@ class HomePageState extends State<HomePage> {
                 builder: (ctx) => SizedBox.fromSize(
                     size: Size(80, 80), // button width and height
                     child: Stack(children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.only(left: 20),
-                        width: 10,
-                        height: 10,
-                        color: Colors.red,
-                      ),
                       ClipOval(
                         child: Material(
                           color: Colors.orange, // button color
@@ -120,13 +120,25 @@ class HomePageState extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(bus["mr_num"]),
-                                Icon(Icons.directions_bus_filled)
+                                Icon(Icons.directions_bus_filled),
                                 // text
                               ],
                             ),
                           ),
                         ),
                       ),
+                      Container(
+                          padding: const EdgeInsets.only(top: 40.0,left: 7.0),
+                          child: Transform.rotate(
+                            angle: double.parse(bus["u_course"],
+                            ),
+
+                            child: Icon(
+                              Icons.arrow_circle_up_rounded,
+                              color: Colors.black,
+                              size: 12,
+                            ),
+                          )),
                     ]))));
             setState(() {});
 
