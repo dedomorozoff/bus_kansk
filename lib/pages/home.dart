@@ -36,7 +36,7 @@ class HomePageState extends State<HomePage> {
     print("Building map");
     return Scaffold(
       appBar: AppBar(title: const Text('Автобусы Канска')),
-      // drawer: buildDrawer(context, HomePage.route),
+      drawer: buildDrawer(context, HomePage.route),
       body: Padding(
         padding: const EdgeInsets.all(5),
         child: Column(children: [
@@ -225,7 +225,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
       final currentLocation = await location.getLocation();
       final moved = widget.mapController.move(
         LatLng(currentLocation.latitude!, currentLocation.longitude!),
-        18,
+        15,
         id: _eventKey.toString(),
       );
 

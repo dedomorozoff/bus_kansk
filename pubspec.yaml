@@ -34,7 +34,6 @@ dependencies:
   flutter_map: any
   latlong2: ^0.8.1
   location: ^4.2.0
-  url_launcher: ^6.1.7
   http: ^0.13.5
 
 
