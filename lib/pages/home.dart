@@ -118,7 +118,7 @@ class HomePageState extends State<HomePage> {
                               height: 30.0,
                               child: Image(
                                 image: AssetImage(
-                                  "assets/images/path1967.png",
+                                  "assets/images/marker.png",
                                 ),
                               )),
                         ))))
@@ -129,11 +129,11 @@ class HomePageState extends State<HomePage> {
                         bus["u_course"],
                       ),
                       child: const SizedBox(
-                          width: 30.0,
-                          height: 30.0,
+                          width: 40.0,
+                          height: 40.0,
                           child: Image(
                             image: AssetImage(
-                              "assets/images/path1967.png",
+                              "assets/images/marker.png",
                             ),
                           )),
                     )));
@@ -165,12 +165,18 @@ class HomePageState extends State<HomePage> {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(top:4, bottom: 0, left: 8, right: 0),
+                            padding: const EdgeInsets.only(
+                                top: 4, bottom: 0, left: 8, right: 0),
                             width: 30,
                             height: 30,
-                            child: Text(bus["mr_num"],style: const TextStyle(fontWeight: FontWeight.bold),),
+                            child: Text(
+                              bus["mr_num"],
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ]))));
+                        ])),
+                ));
             setState(() {});
 
             //
