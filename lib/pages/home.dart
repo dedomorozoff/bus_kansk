@@ -118,7 +118,7 @@ class HomePageState extends State<HomePage> {
                               height: 30.0,
                               child: Image(
                                 image: AssetImage(
-                                  "assets/images/marker.png",
+                                  "assets/images/red-circle.png",
                                 ),
                               )),
                         ))))
@@ -129,54 +129,61 @@ class HomePageState extends State<HomePage> {
                         bus["u_course"],
                       ),
                       child: const SizedBox(
-                          width: 40.0,
-                          height: 40.0,
+                          width: 30.0,
+                          height: 30.0,
                           child: Image(
                             image: AssetImage(
-                              "assets/images/marker.png",
+                              "assets/images/red-circle.png",
                             ),
                           )),
                     )));
             markers.add(Marker(
-                width: 50,
-                height: 50,
-                point: LatLng(
-                    double.parse(bus["u_lat"]), double.parse(bus["u_long"])),
-                builder: (ctx) => SizedBox.fromSize(
-                    size: const Size(50, 50), // button width and height
-                    child: Stack(
-                        textDirection: TextDirection.ltr,
-                        alignment: AlignmentDirectional.center,
-                        children: <Widget>[
-                          Container(
-                            width: 30,
-                            height: 30,
-                            child: InkWell(
-                              // splashColor: Colors.green, // splash color
-                              onTap: () {}, // button pressed
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  // Text(bus["mr_num"]),
-                                  busImage,
-                                  // text
-                                ],
+              width: 50,
+              height: 50,
+              point: LatLng(
+                  double.parse(bus["u_lat"]), double.parse(bus["u_long"])),
+              builder: (ctx) => SizedBox.fromSize(
+                  size: const Size(50, 50), // button width and height
+                  child: Stack(
+                      textDirection: TextDirection.ltr,
+                      alignment: AlignmentDirectional.center,
+                      children: <Widget>[
+                        Container(
+                          width: 30,
+                          height: 30,
+                          child: InkWell(
+                            // splashColor: Colors.green, // splash color
+                            onTap: () {}, // button pressed
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                // Text(bus["mr_num"]),
+                                busImage,
+                                // text
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(
+                              top: 0, bottom: 0, left: 0, right: 0),
+                          alignment: Alignment.center,
+                          width: 30,
+                          height: 30,
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Text(
+                                bus["mr_num"],
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.only(
-                                top: 4, bottom: 0, left: 8, right: 0),
-                            width: 30,
-                            height: 30,
-                            child: Text(
-                              bus["mr_num"],
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ])),
-                ));
+                        ),
+                      ])),
+            ));
             setState(() {});
 
             //
