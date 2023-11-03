@@ -8,6 +8,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 import '/config.dart';
 import 'package:location/location.dart';
+import 'dart:math' as math; // import this
 
 String sid = '';
 var markers = <Marker>[];
@@ -102,44 +103,87 @@ class HomePageState extends State<HomePage> {
 
         getBuses(sid, partBuses).then((dataBus) {
           for (var bus in dataBus) {
+            Widget busImage = double.parse(bus["u_course"]) < 180
+                ? (Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationX(math.pi),
+                    child: Container(
+                        padding: const EdgeInsets.only(top: 0.0, left: 0.0),
+                        child: Transform.rotate(
+                          angle: double.parse(
+                            bus["u_course"],
+                          ),
+                          child: const SizedBox(
+                              width: 30.0,
+                              height: 30.0,
+                              child: Image(
+                                image: AssetImage(
+                                  "assets/images/red-circle.png",
+                                ),
+                              )),
+                        ))))
+                : (Container(
+                    padding: const EdgeInsets.only(top: 0.0, left: 0.0),
+                    child: Transform.rotate(
+                      angle: double.parse(
+                        bus["u_course"],
+                      ),
+                      child: const SizedBox(
+                          width: 30.0,
+                          height: 30.0,
+                          child: Image(
+                            image: AssetImage(
+                              "assets/images/red-circle.png",
+                            ),
+                          )),
+                    )));
             markers.add(Marker(
-                width: 50,
-                height: 50,
-                point: LatLng(
-                    double.parse(bus["u_lat"]), double.parse(bus["u_long"])),
-                builder: (ctx) => SizedBox.fromSize(
-                    size: Size(80, 80), // button width and height
-                    child: Stack(children: <Widget>[
-                      ClipOval(
-                        child: Material(
-                          color: Colors.orange, // button color
+              width: 50,
+              height: 50,
+              point: LatLng(
+                  double.parse(bus["u_lat"]), double.parse(bus["u_long"])),
+              builder: (ctx) => SizedBox.fromSize(
+                  size: const Size(50, 50), // button width and height
+                  child: Stack(
+                      textDirection: TextDirection.ltr,
+                      alignment: AlignmentDirectional.center,
+                      children: <Widget>[
+                        Container(
+                          width: 30,
+                          height: 30,
                           child: InkWell(
-                            splashColor: Colors.green, // splash color
+                            // splashColor: Colors.green, // splash color
                             onTap: () {}, // button pressed
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(bus["mr_num"]),
-                                Icon(Icons.directions_bus_filled),
+                                // Text(bus["mr_num"]),
+                                busImage,
                                 // text
                               ],
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                          padding: const EdgeInsets.only(top: 40.0,left: 7.0),
-                          child: Transform.rotate(
-                            angle: double.parse(bus["u_course"],
+                        Container(
+                          padding: const EdgeInsets.only(
+                              top: 0, bottom: 0, left: 0, right: 0),
+                          alignment: Alignment.center,
+                          width: 30,
+                          height: 30,
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Text(
+                                bus["mr_num"],
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-
-                            child: Icon(
-                              Icons.arrow_circle_up_rounded,
-                              color: Colors.black,
-                              size: 12,
-                            ),
-                          )),
-                    ]))));
+                          ),
+                        ),
+                      ])),
+            ));
             setState(() {});
 
             //

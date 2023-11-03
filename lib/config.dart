@@ -43,7 +43,9 @@ const List busIds = [
   103,
   97,
   98,
-  99
+  99,
+  169,
+  168
 ];
 const centerLat = 56.2056;
 const centerLong = 95.7050;
