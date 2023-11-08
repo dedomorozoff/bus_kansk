@@ -1,31 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '/pages/home.dart';
-
-Widget _buildMenuItem(
-    BuildContext context, Widget title, String routeName, String currentRoute) {
-  final isSelected = routeName == currentRoute;
-
-  return ListTile(
-    title: title,
-    selected: isSelected,
-    onTap: () {
-      if (isSelected) {
-        Navigator.pop(context);
-      } else {
-        Navigator.pushReplacementNamed(context, routeName);
-      }
-    },
-  );
-}
-
 Drawer buildDrawer(BuildContext context, String currentRoute) {
   return Drawer(
     child: ListView(
       padding: EdgeInsets.zero,
       children: <Widget>[
-        DrawerHeader(
-          decoration: const BoxDecoration(
+        const DrawerHeader(
+          decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.topRight,
@@ -34,7 +15,7 @@ Drawer buildDrawer(BuildContext context, String currentRoute) {
             width: double.infinity,
             height: 200.0,
             child: Column(
-              children: const <Widget>[
+              children: <Widget>[
                 SizedBox(
                     width: 150.0,
                     height: 120.0,
@@ -48,19 +29,20 @@ Drawer buildDrawer(BuildContext context, String currentRoute) {
           ),
         ),
         ListTile(
-          title: Text('Информация берется из Портала информирования пассажиров о движении наземного пассажирского транспорта'),
+          title: const Text(
+              'Информация берется из Портала информирования пассажиров о движении наземного пассажирского транспорта'),
           onTap: () {},
         ),
-        Column(children: const <Widget>[
+        const Column(children: <Widget>[
           Text('https://mu-kgt.ru'),
         ]),
-        const Divider(height: 500,),
-        Column(children: const <Widget>[
-          Text('© А.Ю. Лопарев, 2023'),
-          Text('alexloparev@mai.ru'),
+        const Divider(
+          height: 500,
+        ),
+        const Column(children: <Widget>[
+          Text('https://github.com/dedomorozoff/bus_kansk'),
         ]),
       ],
     ),
-
   );
 }

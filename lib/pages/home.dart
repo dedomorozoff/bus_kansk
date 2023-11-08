@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:smart_timer/smart_timer.dart';
@@ -29,10 +30,12 @@ class HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    print("Reloading");
+    if (kDebugMode) {
+      print("Reloading");
+    }
     getInfo();
     SmartTimer(
-      duration: Duration(seconds: 10),
+      duration: const Duration(seconds: 10),
       onTick: () => getInfo(),
     );
     super.initState();
@@ -40,7 +43,9 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("Building map");
+    if (kDebugMode) {
+      print("Building map");
+    }
     return Scaffold(
       appBar: AppBar(title: const Text('Автобусы Канска')),
       drawer: buildDrawer(context, HomePage.route),
@@ -54,7 +59,9 @@ class HomePageState extends State<HomePage> {
                 center: LatLng(centerLat, centerLong),
                 zoom: centerZoom,
                 onMapReady: () {
-                  print("Map ready");
+                  if (kDebugMode) {
+                    print("Map ready");
+                  }
                 },
                 keepAlive: true,
               ),
@@ -82,7 +89,7 @@ class HomePageState extends State<HomePage> {
               child: const Text('Обновить'),
             ),
             Padding(
-                padding: EdgeInsets.only(left: 30),
+                padding: const EdgeInsets.only(left: 30),
                 child: CurrentLocation(mapController: _mapController))
           ])
         ]),
@@ -94,7 +101,9 @@ class HomePageState extends State<HomePage> {
     int noArrays = (busIds.length / 3).ceil();
     getSsid().then((sidFrom) {
       sid = sidFrom;
-      print(sid);
+      if (kDebugMode) {
+        print(sid);
+      }
 
       for (int i = 0; i < noArrays; i++) {
         int noElements =
@@ -148,7 +157,7 @@ class HomePageState extends State<HomePage> {
                       textDirection: TextDirection.ltr,
                       alignment: AlignmentDirectional.center,
                       children: <Widget>[
-                        Container(
+                        SizedBox(
                           width: 30,
                           height: 30,
                           child: InkWell(
@@ -190,7 +199,9 @@ class HomePageState extends State<HomePage> {
           }
         });
       }
-      print(markers);
+      if (kDebugMode) {
+        print(markers);
+      }
     });
   }
 
@@ -237,7 +248,7 @@ class CurrentLocation extends StatefulWidget {
   final MapController mapController;
 
   @override
-  _CurrentLocationState createState() => _CurrentLocationState();
+  State<CurrentLocation> createState() => _CurrentLocationState();
 }
 
 class _CurrentLocationState extends State<CurrentLocation> {
