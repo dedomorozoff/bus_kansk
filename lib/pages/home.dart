@@ -123,13 +123,28 @@ class HomePageState extends State<HomePage> {
                             bus["u_course"],
                           ),
                           child: const SizedBox(
-                              width: 30.0,
-                              height: 30.0,
-                              child: Image(
+                            width: 40.0,
+                            height: 40.0,
+                            child: Stack(
+                                textDirection: TextDirection.ltr,
+                                alignment: AlignmentDirectional.center,
+                                children: <Widget>[
+                              Image(
                                 image: AssetImage(
-                                  "assets/images/red-circle.png",
+                                  "assets/images/marker.png",
                                 ),
-                              )),
+                              ),
+                              SizedBox(
+                                width: 25.0,
+                                height: 25.0,
+                                child: Image(
+                                  image: AssetImage(
+                                    "assets/images/red-circle.png",
+                                  ),
+                                ),
+                              ),
+                            ]),
+                          ),
                         ))))
                 : (Container(
                     padding: const EdgeInsets.only(top: 0.0, left: 0.0),
@@ -138,13 +153,28 @@ class HomePageState extends State<HomePage> {
                         bus["u_course"],
                       ),
                       child: const SizedBox(
-                          width: 30.0,
-                          height: 30.0,
-                          child: Image(
+                        width: 40.0,
+                        height: 40.0,
+                        child: Stack(
+                            textDirection: TextDirection.ltr,
+                            alignment: AlignmentDirectional.center,
+                            children: <Widget>[
+                          Image(
                             image: AssetImage(
-                              "assets/images/red-circle.png",
+                              "assets/images/marker.png",
                             ),
-                          )),
+                          ),
+                          SizedBox(
+                            width: 25.0,
+                            height: 25.0,
+                            child: Image(
+                              image: AssetImage(
+                                "assets/images/red-circle.png",
+                              ),
+                            ),
+                          ),
+                        ]),
+                      ),
                     )));
             markers.add(Marker(
               width: 50,
@@ -158,8 +188,8 @@ class HomePageState extends State<HomePage> {
                       alignment: AlignmentDirectional.center,
                       children: <Widget>[
                         SizedBox(
-                          width: 30,
-                          height: 30,
+                          width: 40,
+                          height: 40,
                           child: InkWell(
                             // splashColor: Colors.green, // splash color
                             onTap: () {}, // button pressed
@@ -177,8 +207,8 @@ class HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.only(
                               top: 0, bottom: 0, left: 0, right: 0),
                           alignment: Alignment.center,
-                          width: 30,
-                          height: 30,
+                          width: 25,
+                          height: 25,
                           child: FittedBox(
                             fit: BoxFit.fitWidth,
                             child: Padding(
@@ -207,7 +237,6 @@ class HomePageState extends State<HomePage> {
 
   Future<String> getSsid() async {
     markers.clear();
-    // print("getting sid");
     String url = 'https://mu-kgt.ru/regions/api/rpc.php';
     String body =
         '{"jsonrpc":"2.0","method":"startSession","params":{},"id":1}';
@@ -221,9 +250,6 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<List> getBuses(sid, busIds) async {
-    // print("getting buses");
-
-    // markers.clear();
     String url = 'https://mu-kgt.ru/regions/api/rpc.php';
     String body =
         '{"jsonrpc":"2.0","method":"getUnits","params":{"sid":"$sid","marshList":$busIds},"id":1}';
@@ -234,7 +260,6 @@ class HomePageState extends State<HomePage> {
         },
         body: body);
     var data = json.decode(response.body);
-    // print(data);
     return data["result"];
   }
 }
