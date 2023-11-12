@@ -1,4 +1,7 @@
+import 'package:buskansk/pages/home.dart';
 import 'package:flutter/material.dart';
+
+import '../pages/schedule.dart';
 
 Drawer buildDrawer(BuildContext context, String currentRoute) {
   return Drawer(
@@ -29,10 +32,29 @@ Drawer buildDrawer(BuildContext context, String currentRoute) {
           ),
         ),
         ListTile(
-          title: const Text(
-              'Информация берется из Портала информирования пассажиров о движении наземного пассажирского транспорта'),
-          onTap: () {},
+            leading: const Icon(Icons.map),
+            title: const Text("Карта автобусов"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+            }),
+        ListTile(
+            leading: const Icon(Icons.schedule),
+            title: const Text("Раписание автобусов"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Schedule()));
+            }),
+        const Divider(
+          height: 300,
         ),
+        const Padding(
+            padding: EdgeInsets.only(left: 18),
+            child: Text(
+                'Информация берется из Портала информирования пассажиров о движении наземного пассажирского транспорта',
+                style: TextStyle(
+                    color: Colors.black54, fontWeight: FontWeight.bold))),
+
         const Column(children: <Widget>[
           Text('https://mu-kgt.ru'),
         ]),
