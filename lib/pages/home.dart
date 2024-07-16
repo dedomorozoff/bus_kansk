@@ -56,8 +56,8 @@ class HomePageState extends State<HomePage> {
             child: FlutterMap(
               mapController: _mapController,
               options: MapOptions(
-                center: LatLng(centerLat, centerLong),
-                zoom: centerZoom,
+                initialCenter: const LatLng(centerLat, centerLong),
+                initialZoom: centerZoom,
                 onMapReady: () {
                   if (kDebugMode) {
                     print("Map ready");
@@ -129,21 +129,21 @@ class HomePageState extends State<HomePage> {
                                 textDirection: TextDirection.ltr,
                                 alignment: AlignmentDirectional.center,
                                 children: <Widget>[
-                              Image(
-                                image: AssetImage(
-                                  "assets/images/marker.png",
-                                ),
-                              ),
-                              SizedBox(
-                                width: 25.0,
-                                height: 25.0,
-                                child: Image(
-                                  image: AssetImage(
-                                    "assets/images/red-circle.png",
+                                  Image(
+                                    image: AssetImage(
+                                      "assets/images/marker.png",
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ]),
+                                  SizedBox(
+                                    width: 25.0,
+                                    height: 25.0,
+                                    child: Image(
+                                      image: AssetImage(
+                                        "assets/images/red-circle.png",
+                                      ),
+                                    ),
+                                  ),
+                                ]),
                           ),
                         ))))
                 : (Container(
@@ -159,21 +159,21 @@ class HomePageState extends State<HomePage> {
                             textDirection: TextDirection.ltr,
                             alignment: AlignmentDirectional.center,
                             children: <Widget>[
-                          Image(
-                            image: AssetImage(
-                              "assets/images/marker.png",
-                            ),
-                          ),
-                          SizedBox(
-                            width: 25.0,
-                            height: 25.0,
-                            child: Image(
-                              image: AssetImage(
-                                "assets/images/red-circle.png",
+                              Image(
+                                image: AssetImage(
+                                  "assets/images/marker.png",
+                                ),
                               ),
-                            ),
-                          ),
-                        ]),
+                              SizedBox(
+                                width: 25.0,
+                                height: 25.0,
+                                child: Image(
+                                  image: AssetImage(
+                                    "assets/images/red-circle.png",
+                                  ),
+                                ),
+                              ),
+                            ]),
                       ),
                     )));
             markers.add(Marker(
@@ -181,7 +181,7 @@ class HomePageState extends State<HomePage> {
               height: 50,
               point: LatLng(
                   double.parse(bus["u_lat"]), double.parse(bus["u_long"])),
-              builder: (ctx) => SizedBox.fromSize(
+              child: SizedBox.fromSize(
                   size: const Size(50, 50), // button width and height
                   child: Stack(
                       textDirection: TextDirection.ltr,

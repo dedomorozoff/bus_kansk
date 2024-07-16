@@ -1,11 +1,11 @@
 {
-    "name": "buskansk",
-    "short_name": "buskansk",
+    "name": "bus_kansk",
+    "short_name": "bus_kansk",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Buses of Kansk",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

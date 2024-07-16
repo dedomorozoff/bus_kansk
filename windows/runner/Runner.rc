@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "ru.labcoding.buskansk" "\0"
-            VALUE "FileDescription", "buskansk" "\0"
+            VALUE "CompanyName", "buskansk.dedomorozoff.ru" "\0"
+            VALUE "FileDescription", "bus_kansk" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "buskansk" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 ru.labcoding.buskansk. All rights reserved." "\0"
-            VALUE "OriginalFilename", "buskansk.exe" "\0"
-            VALUE "ProductName", "buskansk" "\0"
+            VALUE "InternalName", "bus_kansk" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 buskansk.dedomorozoff.ru. All rights reserved." "\0"
+            VALUE "OriginalFilename", "bus_kansk.exe" "\0"
+            VALUE "ProductName", "bus_kansk" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
