@@ -112,70 +112,37 @@ class HomePageState extends State<HomePage> {
 
         getBuses(sid, partBuses).then((dataBus) {
           for (var bus in dataBus) {
-            Widget busImage = double.parse(bus["u_course"]) < 180
-                ? (Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.rotationX(math.pi),
-                    child: Container(
-                        padding: const EdgeInsets.only(top: 0.0, left: 0.0),
-                        child: Transform.rotate(
-                          angle: double.parse(
-                            bus["u_course"],
+            Widget busImage = Container(
+                padding: const EdgeInsets.only(top: 0.0, left: 0.0),
+                child: Transform.rotate(
+                  angle: double.parse(
+                    bus["u_course"],
+                  ),
+                  child: const SizedBox(
+                    width: 40.0,
+                    height: 40.0,
+                    child: Stack(
+                        textDirection: TextDirection.ltr,
+                        alignment: AlignmentDirectional.center,
+                        children: <Widget>[
+                          Image(
+                            image: AssetImage(
+                              "assets/images/marker.png",
+                            ),
                           ),
-                          child: const SizedBox(
-                            width: 40.0,
-                            height: 40.0,
-                            child: Stack(
-                                textDirection: TextDirection.ltr,
-                                alignment: AlignmentDirectional.center,
-                                children: <Widget>[
-                                  Image(
-                                    image: AssetImage(
-                                      "assets/images/marker.png",
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 25.0,
-                                    height: 25.0,
-                                    child: Image(
-                                      image: AssetImage(
-                                        "assets/images/red-circle.png",
-                                      ),
-                                    ),
-                                  ),
-                                ]),
+                          SizedBox(
+                            width: 25.0,
+                            height: 25.0,
+                            child: Image(
+                              image: AssetImage(
+                                "assets/images/red-circle.png",
+                              ),
+                            ),
                           ),
-                        ))))
-                : (Container(
-                    padding: const EdgeInsets.only(top: 0.0, left: 0.0),
-                    child: Transform.rotate(
-                      angle: double.parse(
-                        bus["u_course"],
-                      ),
-                      child: const SizedBox(
-                        width: 40.0,
-                        height: 40.0,
-                        child: Stack(
-                            textDirection: TextDirection.ltr,
-                            alignment: AlignmentDirectional.center,
-                            children: <Widget>[
-                              Image(
-                                image: AssetImage(
-                                  "assets/images/marker.png",
-                                ),
-                              ),
-                              SizedBox(
-                                width: 25.0,
-                                height: 25.0,
-                                child: Image(
-                                  image: AssetImage(
-                                    "assets/images/red-circle.png",
-                                  ),
-                                ),
-                              ),
-                            ]),
-                      ),
-                    )));
+                        ]),
+                  ),
+                ));
+
             markers.add(Marker(
               width: 50,
               height: 50,
